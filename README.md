@@ -1,6 +1,47 @@
-# TicketingSystem
+# 🎫 Ticketing System
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.1.
+[![Deployment Status](https://img.shields.io/badge/deployment-pending-yellow)]()
+[![Angular](https://img.shields.io/badge/Angular-17-DD0031)](https://angular.io/)
+[![Mock API](https://img.shields.io/badge/API-Mocked-blue)]()
+[![NTT DATA Tech Trek](https://img.shields.io/badge/NTT%20DATA-Tech%20Trek-orange)]()
+
+## 🔍 Overview
+
+Ticketing System este o aplicație Angular creată în cadrul programului **NTT DATA Tech Trek**, care simulează un sistem de management al tichetelelor de suport IT.  
+
+Aplicația implementează trei roluri principale:
+- **Admin** – gestionează utilizatorii, vede toate tichetele și le poate asigna tehnicienilor
+- **Technician** – vizualizează tichetele asignate și poate schimba statusul lor
+- **Client** – trimite tichete noi și urmărește istoricul propriu
+
+---
+
+## ✨ Features
+
+* **Authentication** – login cu mock users pe roluri (Admin, Technician, Client)
+* **Admin Dashboard** – vizualizare tichete neasignate, listă tehnicieni disponibili, asignare tichete
+* **Technician Dashboard** – vizualizare tichete asignate, schimbare status (Start/Complete), adăugare note și atașamente
+* **Client Dashboard** – creare tichet nou, vizualizare „My Tickets”, status actualizat în timp real
+* **Mock API** – backend simulat cu `json-server`
+* **Role-Based Access** – fiecare utilizator vede doar ce are voie conform rolului
+* **Responsive Design** – UI simplu, construit cu Angular Material
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+* Node.js (v20 sau mai nou)
+* Angular CLI (v17 sau mai nou)
+* npm (v10 sau mai nou)
+
+### Instalare
+
+1. Clonează repo:
+```bash
+git clone https://github.com/<username>/ticketing-system.git
+cd ticketing-system
+
 
 ## Development server
 
