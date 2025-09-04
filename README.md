@@ -1,6 +1,6 @@
 # 🎫 Ticketing System
 
-[![Deployment Status](https://img.shields.io/badge/deployment-pending-yellow)](ticketing-system-silk.vercel.app)
+[![Deployment Status](https://img.shields.io/badge/deployment-active-green)](ticketing-system-silk.vercel.app)
 [![Angular](https://img.shields.io/badge/Angular-17-DD0031)](https://angular.io/)
 [![Mock API](https://img.shields.io/badge/API-Mocked-blue)]()
 [![NTT DATA Tech Trek](https://img.shields.io/badge/NTT%20DATA-Tech%20Trek-orange)]()
