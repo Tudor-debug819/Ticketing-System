@@ -1,47 +1,39 @@
 # 🎫 Ticketing System
 
-[![Deployment Status](https://img.shields.io/badge/deployment-pending-yellow)]()
+[![Deployment Status](https://img.shields.io/badge/deployment-pending-yellow)](ticketing-system-silk.vercel.app)
 [![Angular](https://img.shields.io/badge/Angular-17-DD0031)](https://angular.io/)
 [![Mock API](https://img.shields.io/badge/API-Mocked-blue)]()
 [![NTT DATA Tech Trek](https://img.shields.io/badge/NTT%20DATA-Tech%20Trek-orange)]()
 
 ## 🔍 Overview
 
-Ticketing System este o aplicație Angular creată în cadrul programului **NTT DATA Tech Trek**, care simulează un sistem de management al tichetelelor de suport IT.  
+Ticketing System is an Angular application developed as part of the NTT DATA Tech Trek program. It simulates an IT support ticket management system.  
 
-Aplicația implementează trei roluri principale:
-- **Admin** – gestionează utilizatorii, vede toate tichetele și le poate asigna tehnicienilor
-- **Technician** – vizualizează tichetele asignate și poate schimba statusul lor
-- **Client** – trimite tichete noi și urmărește istoricul propriu
+The application implements three main roles:
+- **Admin** – manages users, sees all tickets, and assigns them to technicians
+- **Technician** – views assigned tickets and can update their status
+- **Client** – submits new tickets and tracks their history
 
 ---
 
 ## ✨ Features
 
-* **Authentication** – login cu mock users pe roluri (Admin, Technician, Client)
-* **Admin Dashboard** – vizualizare tichete neasignate, listă tehnicieni disponibili, asignare tichete
-* **Technician Dashboard** – vizualizare tichete asignate, schimbare status (Start/Complete), adăugare note și atașamente
-* **Client Dashboard** – creare tichet nou, vizualizare „My Tickets”, status actualizat în timp real
-* **Mock API** – backend simulat cu `json-server`
-* **Role-Based Access** – fiecare utilizator vede doar ce are voie conform rolului
-* **Responsive Design** – UI simplu, construit cu Angular Material
+* **Authentication** – login with mock users for different roles (Admin, Technician, Client)
+* **Admin Dashboard** – view unassigned tickets, see available technicians, assign tickets
+* **Technician Dashboard** – view assigned tickets, update status (Start/Complete), add notes and attachments
+* **Client Dashboard** – create new tickets, view "My Tickets", see real-time status updates
+* **Mock API** – backend simulated with json files
+* **Role-Based Access** –  each user only sees the features allowed for their role
+* **Responsive Design** – clean UI built with Angular Material
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-* Node.js (v20 sau mai nou)
-* Angular CLI (v17 sau mai nou)
-* npm (v10 sau mai nou)
-
-### Instalare
-
-1. Clonează repo:
-```bash
-git clone https://github.com/<username>/ticketing-system.git
-cd ticketing-system
-
+* Node.js (v20 or higher)
+* Angular CLI (v17 or higher)
+* npm (v10 or higher)
 
 ## Development server
 
