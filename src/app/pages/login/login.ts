@@ -1,13 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
 export class Login {
+
+  hide = signal(true);
+  submitting = signal(false);
 
   form: FormGroup;
 
@@ -23,8 +31,10 @@ export class Login {
       this.form.markAllAsTouched();
       return;
     }
-
+    this.submitting.set(true);
     console.log('Login form value:', this.form.getRawValue());
+    setTimeout(() =>
+      this.submitting.set(false), 400);
   }
 
 }
