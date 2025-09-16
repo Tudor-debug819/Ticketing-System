@@ -1,1 +1,32 @@
-<p class="text-green-500">login works!</p>
+<div class="min-h-screen grid place-items-center bg-gray-50">
+    <div class="w-full max-w-md rounded-2xl shadow p-8 bg-white">
+        <h1 class="text-2xl font-semibold mb-6 text-gray-900">Login</h1>
+
+        <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+            <!-- Email -->
+            <mat-form-field appearance="outline" class="w-full flat">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="email" placeholder="you@demo.com" />
+                <mat-error *ngIf="form.get('email')?.hasError('required')">Email is required</mat-error>
+                <mat-error *ngIf="form.get('email')?.hasError('email')">Invalid email</mat-error>
+            </mat-form-field>
+
+            <!-- Password -->
+            <mat-form-field appearance="outline" class="w-full flat">
+                <mat-label>Password</mat-label>
+                <input matInput [type]="hide() ? 'password' : 'text'" formControlName="password" />
+                <button mat-icon-button matSuffix type="button" (click)="hide.set(!hide())"
+                    aria-label="Toggle password">
+                    <mat-icon>{{ hide() ? 'visibility' : 'visibility_off' }}</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('password')?.hasError('required')">Password is required</mat-error>
+                <mat-error *ngIf="form.get('password')?.hasError('minlength')">Min 6 characters</mat-error>
+            </mat-form-field>
+
+            <!-- Submit -->
+            <button mat-raised-button color="primary" class="w-full" [disabled]="form.invalid || submitting()">
+                {{ submitting() ? 'Checking…' : 'Login' }}
+            </button>
+        </form>
+    </div>
+</div>
