@@ -38,9 +38,19 @@ export class Login {
       return;
     }
     this.submitting.set(true);
-    console.log('Login form value:', this.form.getRawValue());
-    setTimeout(() =>
-      this.submitting.set(false), 400);
+
+    const { email, password } = this.form.getRawValue();
+    this.authService.login(email, password).subscribe({
+      next: (user) => {
+        console.log('Logged in as:', user);
+      },
+      error: (err) => {
+        console.warn('Login error:', err?.message || err);
+      },
+      complete: () => this.submitting.set(false)
+    });
   }
+
+
 
 }

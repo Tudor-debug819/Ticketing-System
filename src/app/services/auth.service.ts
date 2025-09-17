@@ -34,25 +34,52 @@ export class AuthService {
 
     private hydrateFromToken(): void {
         const token = this.readToken();
-        console.log('[AuthService] token from storage =', token);
         if (!token) return;
 
         this.userService.getUsers().pipe(
             take(1),
             map(users => {
-                console.log('[AuthService] users loaded =', users);
-                const user = users.find(u => u.token === token) ?? null;
-                console.log('[AuthService] matched user =', user);
-                return user;
+                const found: any = users.find(u => (u as any).token === token);
+                if (!found) return null;
+                const safeUser: User = {
+                    id: found.id,
+                    name: found.name,
+                    email: found.email,
+                    role: found.role,
+                    token: found.token
+                };
+                return safeUser;
             }),
-            catchError(err => {
-                console.error('[AuthService] error fetching users.json:', err);
-                return of(null);
-            })
+            catchError(() => of(null))
         ).subscribe(user => {
             this.currentUserSubject.next(user);
             if (!user) this.clearToken();
         });
+    }
+
+    login(email: string, password: string) {
+        return this.userService.getUsers().pipe(
+            take(1),
+            map(users => {
+                const found: any = users.find(u => u.email === email && (u as any).password === password);
+                if (!found) throw new Error('Invalid credentials');
+
+                const safeUser: User = {
+                    id: found.id,
+                    name: found.name,
+                    email: found.email,
+                    role: found.role,
+                    token: found.token
+                };
+
+                this.setUser(safeUser);
+                return safeUser;
+            })
+        );
+    }
+
+    logout(): void {
+        this.clearUser();
     }
 
     private readToken(): string | null {
