@@ -34,6 +34,10 @@ export class AuthService {
         return this.currentUserSubject.value?.role ?? null;
     }
 
+    public hasStoredToken(): boolean {
+        try { return !!localStorage.getItem(this.STORAGE_KEY); } catch { return false; }
+    }
+
     private hydrateFromToken(): void {
         const token = this.readToken();
         if (!token) return;
