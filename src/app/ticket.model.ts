@@ -10,6 +10,6 @@ export interface Ticket {
     priority: TicketPriority;
     createdAt: string;
     updatedAt: string;
-    assignedTo?: number; // User ID of the technician
-    createdBy: number; // User ID of the client
+    assignedId?: number; // User ID of the technician
+    reporterId: number; // User ID of the client
 }
