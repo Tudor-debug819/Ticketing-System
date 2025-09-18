@@ -43,6 +43,7 @@ export class Login {
     this.authService.login(email, password).subscribe({
       next: (user) => {
         console.log('Logged in as:', user);
+        this.authService.navigateAfterLogin(user.role);
       },
       error: (err) => {
         console.warn('Login error:', err?.message || err);

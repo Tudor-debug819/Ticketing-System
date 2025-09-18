@@ -3,11 +3,13 @@ import { UserService } from "./user.service";
 import { BehaviorSubject, of } from "rxjs";
 import { User, UserRole } from "../user.model";
 import { catchError, take, map } from "rxjs/operators";
+import { Router } from "@angular/router";
 
 @Injectable({ providedIn: 'root' })
 
 export class AuthService {
     private userService = inject(UserService);
+    private router = inject(Router);
 
     private readonly STORAGE_KEY = 'auth_user';
 
@@ -80,6 +82,26 @@ export class AuthService {
 
     logout(): void {
         this.clearUser();
+        this.router.navigate(['/login']);
+    }
+
+    navigateAfterLogin(role: UserRole) {
+        let target: string;
+        switch (role) {
+            case 'admin':
+                target = '/admin-dashboard';
+                break;
+            case 'technician':
+                target = '/technician-dashboard';
+                break;
+            case 'client':
+                target = '/client-dashboard';
+                break;
+            default:
+                target = '/login';
+        }
+
+        this.router.navigate([target]);
     }
 
     private readToken(): string | null {
