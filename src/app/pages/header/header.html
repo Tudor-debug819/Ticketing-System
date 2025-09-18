@@ -1,0 +1,19 @@
+<mat-toolbar color="primary" class="!sticky !top-0 !z-50">
+    <a routerLink="/" class="font-semibold tracking-wide">Helpdesk</a>
+    <span class="flex-1"></span>
+
+    <ng-container *ngIf="auth.currentUser$ | async as user; else guest">
+        <span class="mr-4 hidden sm:inline">{{ user.name }} ({{ user.role }})</span>
+        <button mat-button (click)="auth.logout()">
+            <mat-icon class="mr-1">logout</mat-icon>
+            Logout
+        </button>
+    </ng-container>
+
+    <ng-template #guest>
+        <a mat-button routerLink="/login">
+            <mat-icon class="mr-1">login</mat-icon>
+            Login
+        </a>
+    </ng-template>
+</mat-toolbar>

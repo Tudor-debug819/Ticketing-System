@@ -42,7 +42,6 @@ export class Login {
     const { email, password } = this.form.getRawValue();
     this.authService.login(email, password).subscribe({
       next: (user) => {
-        console.log('Logged in as:', user);
         this.authService.navigateAfterLogin(user.role);
       },
       error: (err) => {
