@@ -8,13 +8,17 @@ export const routes: Routes = [
 
     { path: 'login', loadComponent: () => import('./pages/login/login').then(m => m.Login) },
 
-    { path: 'sidebar', loadComponent: () => import('./pages/sidebar/sidebar').then(m => m.Sidebar) },
+    {
+        path: '', canActivate: [authGuard], loadComponent: () => import('./pages/sidebar/sidebar').then(m => m.Sidebar), children: [
+            { path: 'admin-dashboard', canActivate: [authGuard], data: { roles: ['admin'] }, loadComponent: () => import('./pages/admin-dashboard/admin-dashboard').then(m => m.AdminDashboard) },
 
-    { path: 'admin-dashboard', canActivate: [authGuard], data: { roles: ['admin'] }, loadComponent: () => import('./pages/admin-dashboard/admin-dashboard').then(m => m.AdminDashboard) },
+            { path: 'client-dashboard', canActivate: [authGuard], data: { roles: ['client'] }, loadComponent: () => import('./pages/client-dashboard/client-dashboard').then(m => m.ClientDashboard) },
 
-    { path: 'client-dashboard', canActivate: [authGuard], data: { roles: ['client'] }, loadComponent: () => import('./pages/client-dashboard/client-dashboard').then(m => m.ClientDashboard) },
+            { path: 'technician-dashboard', canActivate: [authGuard], data: { roles: ['technician'] }, loadComponent: () => import('./pages/technician-dashboard/technician-dashboard').then(m => m.TechnicianDashboard) },
 
-    { path: 'technician-dashboard', canActivate: [authGuard], data: { roles: ['technician'] }, loadComponent: () => import('./pages/technician-dashboard/technician-dashboard').then(m => m.TechnicianDashboard) },
+        ]
+    },
+
 
     { path: '**', loadComponent: () => import('./pages/not-found/not-found').then(m => m.NotFound) },
 

@@ -1,3 +1,5 @@
+<app-header></app-header>
+
 <mat-sidenav-container class="h-[100dvh] bg-slate-950 text-white">
     <!-- SIDEBAR -->
     <mat-sidenav #sidenav [mode]="'side'" [opened]="opened()" class="w-72 bg-slate-900/80 border-r border-white/10">
@@ -19,13 +21,6 @@
             }
         </mat-nav-list>
 
-        <div class="mt-auto p-3">
-            <button mat-button (click)="logout()"
-                class="w-full justify-start text-slate-300 hover:text-white hover:bg-white/5">
-                <mat-icon>logout</mat-icon>
-                <span class="ml-2">Logout</span>
-            </button>
-        </div>
     </mat-sidenav>
 
     <!-- TOPBAR + CONTENT -->

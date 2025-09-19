@@ -7,13 +7,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../services/auth.service';
+import { Header } from '../header/header';
 
 type Role = 'admin' | 'technician' | 'client';
 type NavItem = { label: string; icon: string; link: string; roles?: Role[] }
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule, RouterModule, MatSidenavModule, MatToolbarModule, MatIconModule, MatListModule, MatButtonModule],
+  imports: [CommonModule, RouterModule, MatSidenavModule, MatToolbarModule, MatIconModule, MatListModule, MatButtonModule, Header],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css'
 })
@@ -38,7 +39,4 @@ export class Sidebar {
     const r = this.role();
     return this.allItems.filter(i => !i.roles || (r && i.roles.includes(r)));
   });
-
-  logout() { this.authService.logout(); }
-
 }
