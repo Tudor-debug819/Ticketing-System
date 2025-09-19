@@ -4,7 +4,7 @@
         "name": "Admin",
         "email": "admin@test.com",
         "password": "admin123",
-        "role": "admin",
+        "role": "admin"
         "token": "token-admin"
     },
     {
