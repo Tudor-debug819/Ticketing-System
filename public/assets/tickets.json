@@ -1,0 +1,45 @@
+[
+    {
+        "id": 101,
+        "title": "Email not syncing",
+        "description": "Outlook not syncing since yesterday.",
+        "status": "open",
+        "priority": "high",
+        "createdAt": "2025-09-14T09:00:00.000Z",
+        "updatedAt": "2025-09-14T09:00:00.000Z",
+        "reporterId": 3,
+        "assigneeId": 2
+    },
+    {
+        "id": 102,
+        "title": "VPN disconnects",
+        "description": "Frequent disconnects when connecting from home.",
+        "status": "in_progress",
+        "priority": "medium",
+        "createdAt": "2025-09-13T12:30:00.000Z",
+        "updatedAt": "2025-09-15T08:10:00.000Z",
+        "reporterId": 3,
+        "assigneeId": 2
+    },
+    {
+        "id": 103,
+        "title": "New account setup",
+        "description": "Request new account for contractor.",
+        "status": "resolved",
+        "priority": "low",
+        "createdAt": "2025-09-10T10:00:00.000Z",
+        "updatedAt": "2025-09-12T15:45:00.000Z",
+        "reporterId": 3,
+        "assigneeId": 2
+    },
+    {
+        "id": 104,
+        "title": "Laptop overheating",
+        "description": "Fan noisy, device very hot under load.",
+        "status": "open",
+        "priority": "urgent",
+        "createdAt": "2025-09-15T07:20:00.000Z",
+        "updatedAt": "2025-09-15T07:20:00.000Z",
+        "reporterId": 3
+    }
+]
