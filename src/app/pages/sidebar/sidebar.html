@@ -1,0 +1,46 @@
+<mat-sidenav-container class="h-[100dvh] bg-slate-950 text-white">
+    <!-- SIDEBAR -->
+    <mat-sidenav #sidenav [mode]="'side'" [opened]="opened()" class="w-72 bg-slate-900/80 border-r border-white/10">
+        <div class="px-4 py-5 flex items-center gap-3">
+            <div class="h-8 w-8 rounded-xl bg-pink-500 grid place-items-center">
+                <mat-icon class="text-white">support_agent</mat-icon>
+            </div>
+            <div class="font-extrabold tracking-tight">Helpdesk</div>
+        </div>
+
+        <mat-nav-list>
+            @for (item of items(); track item.link) {
+            <a mat-list-item [routerLink]="item.link" routerLinkActive="!text-white text-white" class="rounded-lg mx-2 my-1 text-slate-300 hover:text-white hover:bg-white/5
+                  [&.router-link-active]:bg-pink-500/15 [&.router-link-active]:text-white
+                  [&_.mat-icon]:text-slate-300 [&.router-link-active_.mat-icon]:text-pink-400">
+                <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+                <span matListItemTitle>{{ item.label }}</span>
+            </a>
+            }
+        </mat-nav-list>
+
+        <div class="mt-auto p-3">
+            <button mat-button (click)="logout()"
+                class="w-full justify-start text-slate-300 hover:text-white hover:bg-white/5">
+                <mat-icon>logout</mat-icon>
+                <span class="ml-2">Logout</span>
+            </button>
+        </div>
+    </mat-sidenav>
+
+    <!-- TOPBAR + CONTENT -->
+    <mat-sidenav-content class="h-full">
+        <mat-toolbar class="sticky top-0 z-10 bg-slate-900/60 backdrop-blur border-b border-white/10">
+            <button mat-icon-button (click)="opened.set(!opened())" class="text-white mr-2">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <span class="font-semibold">Helpdesk</span>
+            <span class="flex-1"></span>
+            <span class="text-sm text-pink-300" *ngIf="role() as r">{{ r | titlecase }}</span>
+        </mat-toolbar>
+
+        <div class="p-4 md:p-6 bg-gradient-to-b from-slate-900 to-slate-950 min-h-[calc(100dvh-64px)]">
+            <router-outlet />
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

@@ -8,6 +8,8 @@ export const routes: Routes = [
 
     { path: 'login', loadComponent: () => import('./pages/login/login').then(m => m.Login) },
 
+    { path: 'sidebar', loadComponent: () => import('./pages/sidebar/sidebar').then(m => m.Sidebar) },
+
     { path: 'admin-dashboard', canActivate: [authGuard], data: { roles: ['admin'] }, loadComponent: () => import('./pages/admin-dashboard/admin-dashboard').then(m => m.AdminDashboard) },
 
     { path: 'client-dashboard', canActivate: [authGuard], data: { roles: ['client'] }, loadComponent: () => import('./pages/client-dashboard/client-dashboard').then(m => m.ClientDashboard) },
