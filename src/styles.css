@@ -7,14 +7,10 @@
     caret-color: #fff;
 }
 
-.mat-field-dark .mat-mdc-input-element::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-}
-
 .mat-field-dark {
-    --mdc-outlined-text-field-outline-color: rgba(255, 255, 255, 0.25);
-    --mdc-outlined-text-field-hover-outline-color: rgba(255, 255, 255, 0.25);
-    --mdc-outlined-text-field-focus-outline-color: rgba(255, 255, 255, 0.25);
+    --mdc-outlined-text-field-outline-color: rgba(239, 7, 7, 0.822);
+    /*--mdc-outlined-text-field-hover-outline-color: rgba(255, 255, 255, 0.25);*/
+    /*--mdc-outlined-text-field-focus-outline-color: rgba(255, 255, 255, 0.25);*/
 }
 
 /* Culoarea etichetei (label) */
