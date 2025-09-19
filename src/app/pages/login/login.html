@@ -1,32 +1,47 @@
-<div class="min-h-screen grid place-items-center bg-gray-50">
-    <div class="w-full max-w-md rounded-2xl shadow p-8 bg-white">
-        <h1 class="text-2xl font-semibold mb-6 text-gray-900">Login</h1>
+<div class="min-h-screen grid place-items-center 
+            bg-gradient-to-b from-slate-900 to-slate-950 px-4">
+    <div class="login-card w-full max-w-md rounded-2xl shadow-lg 
+              p-8 bg-white dark:bg-slate-900">
 
-        <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
-            <!-- Email -->
-            <mat-form-field appearance="outline" class="w-full flat">
+        <!-- Title -->
+        <h1 class="text-3xl font-extrabold text-center 
+               text-slate-900 dark:text-white mb-8">
+            Login
+        </h1>
+
+        <!-- Form -->
+        <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-6">
+
+            <mat-form-field appearance="outline" class="w-full mat-field-dark">
                 <mat-label>Email</mat-label>
                 <input matInput type="email" formControlName="email" placeholder="you@demo.com" />
                 <mat-error *ngIf="form.get('email')?.hasError('required')">Email is required</mat-error>
                 <mat-error *ngIf="form.get('email')?.hasError('email')">Invalid email</mat-error>
             </mat-form-field>
 
-            <!-- Password -->
-            <mat-form-field appearance="outline" class="w-full flat">
+            <mat-form-field appearance="outline" class="w-full mat-field-dark">
                 <mat-label>Password</mat-label>
                 <input matInput [type]="hide() ? 'password' : 'text'" formControlName="password" />
                 <button mat-icon-button matSuffix type="button" (click)="hide.set(!hide())"
                     aria-label="Toggle password">
-                    <mat-icon>{{ hide() ? 'visibility' : 'visibility_off' }}</mat-icon>
+                    <mat-icon class="text-white">{{ hide() ? 'visibility' : 'visibility_off' }}</mat-icon>
                 </button>
                 <mat-error *ngIf="form.get('password')?.hasError('required')">Password is required</mat-error>
                 <mat-error *ngIf="form.get('password')?.hasError('minlength')">Min 6 characters</mat-error>
             </mat-form-field>
 
+
             <!-- Submit -->
-            <button mat-raised-button type="submit" color="primary" class="w-full" [disabled]="form.invalid || submitting()">
+            <button mat-raised-button type="submit" class="w-full py-3 rounded-xl font-semibold 
+                     bg-pink-500 hover:bg-pink-600 text-white shadow-md 
+                     transition disabled:opacity-50" [disabled]="form.invalid || submitting()">
                 {{ submitting() ? 'Checking…' : 'Login' }}
             </button>
         </form>
+
+        <!-- Footer -->
+        <p class="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
+            © 2025 Helpdesk • All rights reserved.
+        </p>
     </div>
 </div>
