@@ -1,15 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { UserRole } from "../user.model";
-
-export interface AppUser {
-    id: number;
-    name: string;
-    email: string;
-    role: UserRole;
-    password: string;
-}
+import { UserRole, User } from "../user.model";
 
 @Injectable({
     providedIn: 'root'
@@ -17,7 +9,8 @@ export interface AppUser {
 
 export class UserService {
     constructor(private http: HttpClient) { }
-    getUsers(): Observable<AppUser[]> {
-        return this.http.get<AppUser[]>('/assets/users.json');
+    getUsers(): Observable<User[]> {
+        console.log('[UserService] fetching /assets/users.json');
+        return this.http.get<User[]>('/assets/users.json');
     }
 }
