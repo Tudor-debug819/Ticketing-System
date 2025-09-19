@@ -4,20 +4,23 @@
         "name": "Admin",
         "email": "admin@test.com",
         "password": "admin123",
-        "role": "admin"
+        "role": "admin",
+        "token": "token-admin"
     },
     {
         "id": 2,
         "name": "Technician",
         "email": "technician@test.com",
         "password": "technician123",
-        "role": "technician"
+        "role": "technician",
+        "token": "token-technician"
     },
     {
         "id": 3,
         "name": "Client",
-        "email": "Client@test.com",
+        "email": "client@test.com",
         "password": "client123",
-        "role": "client"
+        "role": "client",
+        "token": "token-client"
     }
 ]
