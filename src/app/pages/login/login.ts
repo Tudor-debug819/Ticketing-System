@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
+import { finalize } from 'rxjs';
 
 
 @Component({
@@ -18,6 +19,7 @@ export class Login {
 
   hide = signal(true);
   submitting = signal(false);
+  serverError = signal<string | null>(null);
 
   form: FormGroup;
 
@@ -26,6 +28,8 @@ export class Login {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
+
+    this.form.valueChanges.subscribe(() => this.serverError.set(null));
   }
 
   ngOnInit() {
@@ -40,7 +44,7 @@ export class Login {
     this.submitting.set(true);
 
     const { email, password } = this.form.getRawValue();
-    this.authService.login(email, password).subscribe({
+    this.authService.login(email, password).pipe(finalize(() => this.submitting.set(false))).subscribe({
       next: (user) => {
         this.authService.navigateAfterLogin(user.role);
       },
