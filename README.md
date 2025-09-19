@@ -1,6 +1,39 @@
-# TicketingSystem
+# 🎫 Ticketing System
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.1.
+[![Deployment Status](https://img.shields.io/badge/deployment-active-brightgreen)](https://ticketing-system-silk.vercel.app)
+[![Angular](https://img.shields.io/badge/Angular-17-DD0031)](https://angular.io/)
+[![Mock API](https://img.shields.io/badge/API-Mocked-blue)]()
+[![NTT DATA Tech Trek](https://img.shields.io/badge/NTT%20DATA-Tech%20Trek-orange)]()
+
+## 🔍 Overview
+
+Ticketing System is an Angular application developed as part of the NTT DATA Tech Trek program. It simulates an IT support ticket management system.  
+
+The application implements three main roles:
+- **Admin** – manages users, sees all tickets, and assigns them to technicians
+- **Technician** – views assigned tickets and can update their status
+- **Client** – submits new tickets and tracks their history
+
+---
+
+## ✨ Features
+
+* **Authentication** – login with mock users for different roles (Admin, Technician, Client)
+* **Admin Dashboard** – view unassigned tickets, see available technicians, assign tickets
+* **Technician Dashboard** – view assigned tickets, update status (Start/Complete), add notes and attachments
+* **Client Dashboard** – create new tickets, view "My Tickets", see real-time status updates
+* **Mock API** – backend simulated with json files
+* **Role-Based Access** –  each user only sees the features allowed for their role
+* **Responsive Design** – clean UI built with Angular Material
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+* Node.js (v20 or higher)
+* Angular CLI (v17 or higher)
+* npm (v10 or higher)
 
 ## Development server
 
