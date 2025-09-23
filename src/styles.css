@@ -1,5 +1,49 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Dark style pentru mat-form-field (outlined) */
+.mat-field-dark .mat-mdc-input-element {
+    color: #fff !important;
+    caret-color: #fff;
+}
+
+.mat-field-dark {
+    --mdc-outlined-text-field-outline-color: rgba(239, 7, 7, 0.822);
+    /*--mdc-outlined-text-field-hover-outline-color: rgba(255, 255, 255, 0.25);*/
+    /*--mdc-outlined-text-field-focus-outline-color: rgba(255, 255, 255, 0.25);*/
+}
+
+/* Culoarea etichetei (label) */
+.mat-field-dark .mdc-floating-label {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.mat-field-dark .mdc-text-field--focused .mdc-floating-label {
+    color: #fff;
+}
+
+
+/* Elimină linia verticală din mijlocul conturului (notch) */
+.mat-field-dark .mdc-notched-outline__notch {
+    border-right: 0 !important;
+}
+
+/* Colțuri rotunjite corect pe tot conturul */
+.mat-field-dark .mdc-notched-outline {
+    border-radius: 12px;
+}
+
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-input-element {
+    color: white !important;
+}

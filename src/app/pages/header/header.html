@@ -3,7 +3,7 @@
     <span class="flex-1"></span>
 
     <ng-container *ngIf="auth.currentUser$ | async as user; else guest">
-        <span class="mr-4 hidden sm:inline">{{ user.name }} ({{ user.role }})</span>
+        <span class="mr-4 hidden sm:inline"> Hi, {{ user.name }}!</span>
         <button mat-button (click)="auth.logout()">
             <mat-icon class="mr-1">logout</mat-icon>
             Logout
