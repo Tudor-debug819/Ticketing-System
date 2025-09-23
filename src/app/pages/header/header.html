@@ -1,6 +1,13 @@
 <mat-toolbar color="primary" class="!sticky !top-0 !z-50">
-    <a routerLink="/" class="font-semibold tracking-wide">Helpdesk</a>
+    <div class="h-8 w-8 rounded-xl bg-pink-500 grid place-items-center">
+        <mat-icon class="text-white">support_agent</mat-icon>
+    </div> <a routerLink="/" class="font-semibold tracking-wide">Helpdesk</a>
+    <button mat-icon-button (click)="menuToggle.emit()" class="mr-2">
+        <mat-icon>menu</mat-icon>
+    </button>
+
     <span class="flex-1"></span>
+
 
     <ng-container *ngIf="auth.currentUser$ | async as user; else guest">
         <span class="mr-4 hidden sm:inline"> Hi, {{ user.name }}!</span>

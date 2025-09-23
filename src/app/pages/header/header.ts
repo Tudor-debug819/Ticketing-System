@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatToolbarModule } from "@angular/material/toolbar";
@@ -15,5 +15,7 @@ import { AuthService } from '../../services/auth.service';
 export class Header {
 
   auth = inject(AuthService);
+
+  @Output() menuToggle = new EventEmitter<void>();
 
 }
