@@ -1,0 +1,27 @@
+<app-header (menuToggle)="sidenav.toggle()"></app-header>
+
+<mat-sidenav-container class="h-[100dvh] bg-slate-950 text-white">
+    <!-- SIDEBAR -->
+    <mat-sidenav #sidenav [mode]="'side'" class="w-72 bg-slate-900/80 border-r border-white/10">
+
+        <mat-nav-list>
+            @for (item of items(); track item.link) {
+            <a mat-list-item [routerLink]="item.link" routerLinkActive="!text-white text-white" class="rounded-lg mx-2 my-1 text-slate-300 hover:text-white hover:bg-white/5
+                  [&.router-link-active]:bg-pink-500/15 [&.router-link-active]:text-white
+                  [&_.mat-icon]:text-slate-300 [&.router-link-active_.mat-icon]:text-pink-400">
+                <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+                <span matListItemTitle>{{ item.label }}</span>
+            </a>
+            }
+        </mat-nav-list>
+
+    </mat-sidenav>
+
+    <!-- TOPBAR + CONTENT -->
+    <mat-sidenav-content class="h-full">
+
+        <div class="p-4 md:p-6 bg-gradient-to-b from-slate-900 to-slate-950 min-h-[calc(100dvh-64px)]">
+            <router-outlet />
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
