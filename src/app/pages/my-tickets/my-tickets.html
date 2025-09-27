@@ -1,1 +1,47 @@
-<p>my-tickets works!</p>
+<div class="flex items-center justify-between mb-5">
+    <h2 class="text-xl font-semibold text-slate-200">My Tickets</h2>
+    <button mat-raised-button color="primary">Add Ticket</button>
+</div>
+
+<ng-container *ngIf="tickets$ | async as tickets; else loading">
+    <ng-container *ngIf="tickets.length; else empty">
+        <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <article *ngFor="let t of tickets"
+                class="rounded-xl border border-white/10 bg-white/5 p-4 hover:bg-white/[0.07] transition">
+                <div class="flex items-start justify-between gap-3">
+                    <h3 class="font-semibold text-slate-100">{{ t.title }}</h3>
+                    <span class="text-xxs px-2 py-0.5 rounded-full shrink-0" [ngClass]="{
+                  'bg-yellow-200/20 text-yellow-200': t.status==='open',
+                  'bg-blue-200/20 text-blue-200': t.status==='in_progress',
+                  'bg-emerald-200/20 text-emerald-200': t.status==='resolved',
+                  'bg-slate-200/20 text-slate-200': t.status==='closed'
+                }">
+                        {{ t.status | titlecase }}
+                    </span>
+                </div>
+
+                <p class="mt-1 text-sm text-slate-300 line-clamp-2">{{ t.description }}</p>
+
+                <div class="mt-3 flex items-center justify-between text-xs text-slate-400">
+                    <span>Priority: {{ t.priority | titlecase }}</span>
+                    <span>{{ t.updatedAt | date:'mediumDate' }}</span>
+                </div>
+
+                <div class="mt-3 flex gap-2">
+                    <button mat-stroked-button color="primary" routerLink="/my-tickets">View</button>
+                    <button mat-stroked-button color="accent" *ngIf="t.status==='open'">Close</button>
+                </div>
+            </article>
+        </div>
+    </ng-container>
+</ng-container>
+
+<ng-template #loading>
+    <p class="text-slate-400">Loading tickets…</p>
+</ng-template>
+
+<ng-template #empty>
+    <div class="text-slate-400">
+        No tickets yet. Click <strong>Add Ticket</strong> to create your first one.
+    </div>
+</ng-template>
