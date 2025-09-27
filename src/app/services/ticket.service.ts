@@ -18,6 +18,6 @@ export class TicketService {
     }
 
     getByAssignee(assignedId: number): Observable<Ticket[]> {
-        return this.getAll().pipe(map(list => list.filter(ticket => ticket.assignedId === assignedId)));
+        return this.getAll().pipe(map(list => list.filter(ticket => ticket.assigneeId === assignedId)));
     }
 }
