@@ -1,1 +1,68 @@
-<p>technician-dashboard works!</p>
+<!-- GRID STATISTICI -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+    <!-- Card -->
+    <div class="rounded-2xl p-4 shadow bg-slate-900 text-white">
+        <div class="flex items-center gap-3">
+            <mat-icon class="text-white/80">assignment_ind</mat-icon>
+            <div>
+                <p class="text-sm text-white/70">Total Assigned</p>
+                <p class="text-2xl font-semibold text-white">{{ stats.total }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="rounded-2xl p-4 shadow bg-slate-900 text-white">
+        <div class="flex items-center gap-3">
+            <mat-icon class="text-white/80">bug_report</mat-icon>
+            <div>
+                <p class="text-sm text-white/70">Open</p>
+                <p class="text-2xl font-semibold text-white">{{ stats.open }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="rounded-2xl p-4 shadow bg-slate-900 text-white">
+        <div class="flex items-center gap-3">
+            <mat-icon class="text-white/80">build</mat-icon>
+            <div>
+                <p class="text-sm text-white/70">In Progress</p>
+                <p class="text-2xl font-semibold text-white">{{ stats.inProgress }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="rounded-2xl p-4 shadow bg-slate-900 text-white">
+        <div class="flex items-center gap-3">
+            <mat-icon class="text-white/80">check_circle</mat-icon>
+            <div>
+                <p class="text-sm text-white/70">Resolved</p>
+                <p class="text-2xl font-semibold text-white">{{ stats.resolved }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- RECENT ASSIGNED TICKETS -->
+<div class="rounded-2xl shadow bg-slate-900 text-white">
+    <div class="px-4 py-3 border-b border-slate-700 flex items-center justify-between">
+        <h3 class="font-semibold">Recent assigned tickets</h3>
+        <a routerLink="/technician/tickets" class="text-sm text-white/80 hover:text-white underline">See all</a>
+    </div>
+
+    <ul class="divide-y divide-slate-800">
+        <li *ngFor="let t of recentTickets" class="px-4 py-3 flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="font-medium truncate">#{{ t.id }} — {{ t.title }}</p>
+                <p class="text-xs text-white/60">{{ t.updatedAt }}</p>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <span class="px-2 py-1 text-xs rounded-full font-medium" [ngClass]="badgeClass(t.status)">
+                    {{ t.status }}
+                </span>
+                <a [routerLink]="['/technician/tickets', t.id]"
+                    class="text-sm text-white/80 hover:text-white underline">View</a>
+            </div>
+        </li>
+    </ul>
+</div>

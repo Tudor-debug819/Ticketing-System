@@ -28,7 +28,7 @@ export class Sidebar {
     { label: 'Dashboard', icon: 'space_dashboard', link: '/admin-dashboard', roles: ['admin'] },
     { label: 'Dashboard', icon: 'space_dashboard', link: '/technician-dashboard', roles: ['technician'] },
     { label: 'Dashboard', icon: 'space_dashboard', link: '/client-dashboard', roles: ['client'] },
-    { label: 'Tickets', icon: 'confirmation_number', link: '/tickets', roles: ['admin', 'technician'] },
+    { label: 'Tickets', icon: 'confirmation_number', link: '/technician-tickets', roles: ['admin', 'technician'] },
     { label: 'My tickets', icon: 'assignment', link: '/my-tickets', roles: ['client', 'technician'] },
     { label: 'Settings', icon: 'settings', link: '/settings' }
   ];
