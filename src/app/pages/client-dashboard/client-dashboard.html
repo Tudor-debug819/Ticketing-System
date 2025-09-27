@@ -1,1 +1,38 @@
-<p>client-dashboard works!</p>
+<div *ngIf="stats$ | async as stats" class="grid gap-4 md:grid-cols-4">
+    <div class="p-4 bg-blue-100 rounded-lg text-center">
+        <p class="text-2xl font-bold">{{ stats.total }}</p>
+        <p class="text-sm text-slate-700">Total Tickets</p>
+    </div>
+    <div class="p-4 bg-yellow-100 rounded-lg text-center">
+        <p class="text-2xl font-bold">{{ stats.open }}</p>
+        <p class="text-sm">Open</p>
+    </div>
+    <div class="p-4 bg-blue-200 rounded-lg text-center">
+        <p class="text-2xl font-bold">{{ stats.inProgress }}</p>
+        <p class="text-sm">In Progress</p>
+    </div>
+    <div class="p-4 bg-green-100 rounded-lg text-center">
+        <p class="text-2xl font-bold">{{ stats.resolved + stats.closed }}</p>
+        <p class="text-sm">Resolved/Closed</p>
+    </div>
+</div>
+
+<h3 class="mt-8 text-lg font-semibold text-slate-200">Recent Tickets</h3>
+<ul class="divide-y divide-white/10 mt-2">
+    <li *ngFor="let t of (recentTickets$ | async)" class="py-3 flex items-center justify-between">
+        <span class="text-slate-200">{{ t.title }}</span>
+        <span class="text-xxs px-2 py-0.5 rounded-full" [ngClass]="{
+            'bg-yellow-200/20 text-yellow-200': t.status==='open',
+            'bg-blue-200/20 text-blue-200': t.status==='in_progress',
+            'bg-emerald-200/20 text-emerald-200': t.status==='resolved',
+            'bg-slate-200/20 text-slate-200': t.status==='closed'
+          }">
+            {{ t.status | titlecase }}
+        </span>
+    </li>
+</ul>
+
+<a routerLink="/my-tickets" class="inline-flex items-center gap-2 mt-4 text-sm text-sky-200 hover:underline">
+    View All Tickets
+    <mat-icon fontIcon="chevron_right" class="!text-base"></mat-icon>
+</a>

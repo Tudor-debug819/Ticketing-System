@@ -16,7 +16,10 @@ export const routes: Routes = [
 
             { path: 'technician-dashboard', canActivate: [authGuard], data: { roles: ['technician'] }, loadComponent: () => import('./pages/technician-dashboard/technician-dashboard').then(m => m.TechnicianDashboard) },
 
+            { path: 'my-tickets', canActivate: [authGuard], data: { roles: ['client', 'technician'] }, loadComponent: () => import('./pages/my-tickets/my-tickets').then(m => m.MyTickets) },
+              
             { path: 'technician-tickets', loadComponent: () => import('./pages/technician/technician-tickets/technician-tickets').then(m => m.TechnicianTickets) },
+
 
         ]
     },
