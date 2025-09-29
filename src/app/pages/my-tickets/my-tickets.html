@@ -1,6 +1,8 @@
 <div class="flex items-center justify-between mb-5">
     <h2 class="text-xl font-semibold text-slate-200">My Tickets</h2>
-    <button mat-raised-button color="primary">Add Ticket</button>
+    <button mat-raised-button color="primary" class="!text-white" [routerLink]="['/my-tickets/new']">
+        Add Ticket
+    </button>
 </div>
 
 <ng-container *ngIf="tickets$ | async as tickets; else loading">

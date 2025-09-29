@@ -31,10 +31,16 @@ export class TicketService {
     }
 
     // crează un ticket
-    create(ticket: Partial<Ticket>): Observable<Ticket> {
-        return this.http.post<Ticket>(this.apiUrl, ticket);
+    create(ticket: {
+        client_id: number;
+        title: string;
+        description: string;
+        priority?: 'low' | 'medium' | 'high' | 'urgent';
+        assigned_to?: number | null;
+        status?: 'new' | 'open' | 'in_progress' | 'on_hold' | 'resolved' | 'closed';
+    }) {
+        return this.http.post(`${this.apiUrl}`, ticket);
     }
-
     // adaugă comentariu la un ticket
     addComment(ticketId: number, comment: { author_id: number; body: string }): Observable<any> {
         return this.http.post(`${this.apiUrl}/${ticketId}/comments`, comment);
