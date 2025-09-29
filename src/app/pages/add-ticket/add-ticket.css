@@ -1,0 +1,21 @@
+:host {
+    display: block;
+    color: white;
+    /* text default alb în componentă */
+}
+
+/* forcează label-urile să fie albe */
+.mat-mdc-form-field-label {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* textul introdus de user */
+.mat-mdc-input-element {
+    color: white !important;
+}
+
+/* hint-uri / erori */
+.mat-mdc-form-field-subscript-wrapper {
+    color: #fca5a5 !important;
+    /* roșu deschis pentru erori */
+}

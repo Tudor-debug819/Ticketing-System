@@ -19,7 +19,7 @@ export class MyTickets implements OnInit {
 
   ngOnInit(): void {
     const me = this.auth.currentUser!;
-    this.tickets$ = this.tickets.getByReporter(me.id);
+    this.tickets$ = this.tickets.getByClient(me.id);
   }
 
 }
