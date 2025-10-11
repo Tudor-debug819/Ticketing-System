@@ -6,6 +6,7 @@ import { Observable, map } from 'rxjs';
 import { Ticket } from '../../ticket.model';
 import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { User } from '../../user.model';
 
 interface TicketStats {
   total: number;
@@ -32,10 +33,12 @@ export class ClientDashboard implements OnInit {
 
   ngOnInit(): void {
     const me = this.auth.currentUser!;
-    this.userName = me.name;
-    const userTickets$ = this.tickets.getByClient(me.id);
+    this.userName =
+      me.name ??
+      ((me as any).full_name as string | undefined)
 
 
+    const userTickets$ = this.tickets.getByClient(Number(me.id));
 
     this.stats$ = userTickets$.pipe(
       map(list => ({

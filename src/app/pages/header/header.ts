@@ -5,6 +5,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { AuthService } from '../../services/auth.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -15,6 +16,10 @@ import { AuthService } from '../../services/auth.service';
 export class Header {
 
   auth = inject(AuthService);
+  
+  userName$ = this.auth.currentUser$.pipe(
+    map(user => user ? (user.name || user.email) : null)
+  );
 
   @Output() menuToggle = new EventEmitter<void>();
 

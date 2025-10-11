@@ -42,12 +42,13 @@ export class AddTicket {
       return;
     }
     const me = this.auth.currentUser!;
+    const clientId = Number(me.id);
     const { title, description, priority } = this.form.value;
 
     this.loading = true;
     this.tickets.create({
       // backend așteaptă snake_case
-      client_id: me.id,
+      client_id: clientId,
       title: title!,
       description: description!,
       priority: priority as 'low' | 'medium' | 'high' | 'urgent',
