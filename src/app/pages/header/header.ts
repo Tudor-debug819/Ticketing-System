@@ -16,9 +16,13 @@ import { map } from 'rxjs';
 export class Header {
 
   auth = inject(AuthService);
-  
+
   userName$ = this.auth.currentUser$.pipe(
-    map(user => user ? (user.name || user.email) : null)
+    map(user => {
+      if (!user) return null;
+      const raw = (user.name?.trim()) || (user.email?.split('@')[0] ?? '');
+      return raw ? raw[0].toUpperCase() + raw.slice(1) : null;
+    })
   );
 
   @Output() menuToggle = new EventEmitter<void>();
