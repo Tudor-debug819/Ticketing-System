@@ -24,3 +24,9 @@
         </a>
     </ng-template>
 </mat-toolbar>
+
+<!-- Banner offline -->
+<div *ngIf="offline$ | async" class="offline-banner">
+    <span class="dot"></span>
+    Offline • read-only (server indisponibil)
+</div>

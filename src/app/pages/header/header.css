@@ -1,0 +1,25 @@
+.offline-banner {
+    position: sticky;
+    top: 0;
+    /* sub toolbar dacă vrei, poți pune top:56px */
+    z-index: 40;
+    padding: 6px 12px;
+    background: #FEF2F2;
+    /* roșu deschis */
+    color: #991B1B;
+    /* roșu închis */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    font-weight: 600;
+    letter-spacing: .2px;
+}
+
+.offline-banner .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #DC2626;
+    box-shadow: 0 0 0 6px rgba(220, 38, 38, 0.12);
+}

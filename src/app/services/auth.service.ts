@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, catchError, of, tap, map } from 'rxjs';
 import { Router } from '@angular/router';
-import{User, UserRole} from '../user.model';
+import { User, UserRole } from '../user.model';
+import { RuntimeStateService } from './runtime-state.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -10,7 +11,7 @@ export class AuthService {
     private _currentUser$ = new BehaviorSubject<User | null>(null);
     currentUser$ = this._currentUser$.asObservable();
 
-    constructor(private http: HttpClient, private router: Router) { }
+    constructor(private http: HttpClient, private router: Router, private state: RuntimeStateService) { }
 
     hasStoredToken() { return !!localStorage.getItem('token'); }
     get token() { return localStorage.getItem('token'); }
@@ -25,7 +26,9 @@ export class AuthService {
             .pipe(
                 tap(res => {
                     localStorage.setItem('token', res.token);
+                    localStorage.setItem('last_user', JSON.stringify(res.user));
                     this._currentUser$.next(res.user);
+                    this.state.setOffline(false); 
                 }),
                 map(res => res.user)
             );
@@ -46,21 +49,40 @@ export class AuthService {
         try {
             const u = JSON.parse(raw) as User;
             this._currentUser$.next(u);
+            this.state.setOffline(true);
             return true;
         } catch {
             return false;
         }
     }
 
-    loadSession() {
+    loadSession(): Promise<void> {
         const token = this.token;
-        if (!token) { this._currentUser$.next(null); return; }
+        if (!token) {
+            this._currentUser$.next(null);
+            return Promise.resolve();
+        }
+
         const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-        this.http.get<{ user: User; offline: boolean }>(`${this.apiUrl}/session`, { headers })
+
+        return this.http
+            .get<{ user: User }>(`${this.apiUrl}/session`, { headers })
             .pipe(
-                tap(res => this._currentUser$.next(res.user)),
-                catchError(() => { this.logout(); return of(null); })
-            ).subscribe();
+                tap(res => {
+                    this._currentUser$.next(res.user);
+                    localStorage.setItem('last_user', JSON.stringify(res.user));
+                    this.state.setOffline(false);
+                }),
+                map(() => void 0),
+                catchError(err => {
+                    if (err.status === 0 && this.enterOfflineIfPossible()) {
+                        this.state.setOffline(true);
+                        return of(void 0);
+                    }
+                    return of(void 0);
+                })
+            )
+            .toPromise();
     }
 
     logout() {

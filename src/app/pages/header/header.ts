@@ -5,7 +5,8 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { AuthService } from '../../services/auth.service';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { RuntimeStateService } from '../../services/runtime-state.service';
 
 @Component({
   selector: 'app-header',
@@ -16,6 +17,12 @@ import { map } from 'rxjs';
 export class Header {
 
   auth = inject(AuthService);
+
+  offline$!: Observable<boolean>;
+
+  constructor(private state: RuntimeStateService) {
+    this.offline$ = this.state.offline$;
+  }
 
   userName$ = this.auth.currentUser$.pipe(
     map(user => {
