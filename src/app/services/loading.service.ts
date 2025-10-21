@@ -16,11 +16,11 @@ export class LoadingService {
   start() {
     this._pending++;
     if (this._pending === 1) {
-      // programează afișarea după 120ms
       this.clearShowTimer();
       this.showTimer = setTimeout(() => {
         this._loading$.next(true);
         this.lastShownAt = Date.now();
+        this.showTimer = null;          // <-- IMPORTANT: timerul a rulat; marchează-l ca “consumat”
       }, this.showDelayMs);
     }
   }

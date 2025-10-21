@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
 import { TicketService } from '../../services/ticket.service';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap, shareReplay } from 'rxjs/operators';
 import { Ticket } from '../../ticket.model';
 import { User } from '../../user.model';
 
@@ -42,13 +42,14 @@ export class ClientDashboard implements OnInit {
     });
 
     const userTickets$ = user$.pipe(
-      switchMap(u => this.tickets.getByClient(Number(u.id)))
+      switchMap(u => this.tickets.getByClient(Number(u.id))),
+      shareReplay(1)
     );
 
+    //aici se aboneaza o data
     this.stats$ = userTickets$.pipe(
       map(list => ({
         total: list.length,
-        // IMPORTANT: "new" contează ca "Open" în UI
         open: list.filter(t => t.status === 'open' || t.status === 'new').length,
         inProgress: list.filter(t => t.status === 'in_progress').length,
         resolved: list.filter(t => t.status === 'resolved').length,
@@ -56,6 +57,7 @@ export class ClientDashboard implements OnInit {
       }))
     );
 
+    //aici se aboneaza a doua oara
     this.recentTickets$ = userTickets$.pipe(
       map(list =>
         [...list]
@@ -66,5 +68,6 @@ export class ClientDashboard implements OnInit {
           .slice(0, 3)
       )
     );
+    
   }
 }
