@@ -5,7 +5,9 @@ import { RouterLink } from '@angular/router';
 import { TicketService } from '../../services/ticket.service';
 import { AuthService } from '../../services/auth.service';
 import { filter, map, switchMap, take } from 'rxjs/operators';
+
 import { User } from '../../user.model';
+
 
 type ApiStatus = 'new' | 'open' | 'in_progress' | 'on_hold' | 'resolved' | 'closed';
 
@@ -14,6 +16,7 @@ interface ApiTicket {
   title: string;
   description?: string;
   status: ApiStatus | string;
+
   updated_at?: string;
   updatedAt?: string;
 }
@@ -36,7 +39,8 @@ export class TechnicianDashboard implements OnInit {
   ngOnInit() {
     this.auth.currentUser$
       .pipe(
-        filter(u => !!u),
+
+        filter(u => !!u),        
         take(1),
         switchMap(u => this.tickets.getByTechnician(Number(u!.id))),
         map((rows: ApiTicket[]) =>
@@ -45,6 +49,7 @@ export class TechnicianDashboard implements OnInit {
             title: r.title,
             status: this.normalizeStatus(r.status),
             updatedAt: r.updatedAt ?? r.updated_at ?? ''
+
           }))
         )
       )

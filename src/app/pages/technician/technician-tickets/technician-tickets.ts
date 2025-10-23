@@ -49,8 +49,10 @@ export class TechnicianTickets implements OnInit {
   tickets: UiTicket[] = [];
 
   ngOnInit() {
+
     this.auth.currentUser$.subscribe(state => {
       const u = state;
+
       if (!u) return;
       this.currentTechId = Number(u.id);
 

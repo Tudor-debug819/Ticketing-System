@@ -35,6 +35,10 @@ export class ClientDashboard implements OnInit {
       filter((u): u is User => !!u)
     );
 
+    const me = this.auth.currentUser!;
+    this.userName = me.name;
+    const userTickets$ = this.tickets.getByClient(me.id);
+
     // nume prietenos în header local component
     user$.subscribe(u => {
       const raw = (u.name?.trim()) || (u.email?.split('@')[0] ?? '');
@@ -61,10 +65,13 @@ export class ClientDashboard implements OnInit {
     this.recentTickets$ = userTickets$.pipe(
       map(list =>
         [...list]
+
           .sort((a, b) =>
             new Date(b.updated_at ?? b.created_at).getTime() -
             new Date(a.updated_at ?? a.created_at).getTime()
           )
+
+          .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
           .slice(0, 3)
       )
     );

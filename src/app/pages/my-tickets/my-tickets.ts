@@ -25,6 +25,10 @@ export class MyTickets implements OnInit {
       filter((u): u is User => !!u),
       switchMap(u => this.tickets.getByClient(Number(u.id)))
     );
+
+    const me = this.auth.currentUser!;
+    this.tickets$ = this.tickets.getByClient(me.id);
+
   }
 
 }
