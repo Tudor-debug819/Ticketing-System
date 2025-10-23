@@ -22,6 +22,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^20.2.3",
     "@angular/cdk": "^20.2.2",
     "@angular/common": "^20.2.0",
     "@angular/compiler": "^20.2.0",
@@ -31,6 +32,7 @@
     "@angular/platform-browser": "^20.2.0",
     "@angular/router": "^20.2.0",
     "@tailwindcss/postcss": "^4.1.13",
+    "angular2-notifications": "^16.0.1",
     "postcss": "^8.5.6",
     "rxjs": "~7.8.0",
     "tailwindcss": "^4.1.13",

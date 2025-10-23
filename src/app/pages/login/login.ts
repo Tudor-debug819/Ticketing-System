@@ -20,6 +20,7 @@ export class Login {
   hide = signal(true);
   submitting = signal(false);
   serverError = signal<string | null>(null);
+  canWorkOffline = false;
 
   form: FormGroup;
 
@@ -42,6 +43,8 @@ export class Login {
       return;
     }
     this.submitting.set(true);
+    this.serverError.set(null);
+    this.canWorkOffline = false;
 
     const { email, password } = this.form.getRawValue();
     this.authService.login(email, password).pipe(finalize(() => this.submitting.set(false))).subscribe({
@@ -49,10 +52,24 @@ export class Login {
         this.authService.navigateAfterLogin(user.role);
       },
       error: (err) => {
-        console.warn('Login error:', err?.message || err);
+        const status = err?.status ?? 0;
+        if (status === 401) {
+          this.serverError.set('Email sau parolă incorecte.');
+        } else if (status === 403) {
+          this.serverError.set('Nu ai permisiuni pentru această aplicație.');
+        } else {
+          this.serverError.set('Server indisponibil. Nu te poți autentifica acum.');
+          this.canWorkOffline = !!localStorage.getItem('last_user');
+        }
       },
-      complete: () => this.submitting.set(false)
     });
+  }
+
+  enterOffline() {
+    if (this.authService.enterOfflineIfPossible()) {
+      const user = this.authService.currentUser!;
+      this.authService.navigateAfterLogin(user.role);
+    }
   }
 
 

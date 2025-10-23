@@ -6,6 +6,9 @@ import { TicketService } from '../../services/ticket.service';
 import { AuthService } from '../../services/auth.service';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 
+import { User } from '../../user.model';
+
+
 type ApiStatus = 'new' | 'open' | 'in_progress' | 'on_hold' | 'resolved' | 'closed';
 
 interface ApiTicket {
@@ -13,8 +16,9 @@ interface ApiTicket {
   title: string;
   description?: string;
   status: ApiStatus | string;
-  updated_at?: string;       
-  updatedAt?: string;        
+
+  updated_at?: string;
+  updatedAt?: string;
 }
 
 @Component({
@@ -35,15 +39,17 @@ export class TechnicianDashboard implements OnInit {
   ngOnInit() {
     this.auth.currentUser$
       .pipe(
+
         filter(u => !!u),        
         take(1),
         switchMap(u => this.tickets.getByTechnician(Number(u!.id))),
         map((rows: ApiTicket[]) =>
           rows.map(r => ({
             id: Number(r.id),
-            title: r.title,                            
-            status: this.normalizeStatus(r.status),    
-            updatedAt: r.updatedAt ?? r.updated_at ?? '' 
+            title: r.title,
+            status: this.normalizeStatus(r.status),
+            updatedAt: r.updatedAt ?? r.updated_at ?? ''
+
           }))
         )
       )

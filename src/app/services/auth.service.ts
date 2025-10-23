@@ -1,138 +1,93 @@
-import { Injectable, inject } from "@angular/core";
-import { UserService } from "./user.service";
-import { BehaviorSubject, of } from "rxjs";
-import { User, UserRole } from "../user.model";
-import { catchError, take, map } from "rxjs/operators";
-import { Router } from "@angular/router";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, catchError, of, tap, map } from 'rxjs';
+import { Router } from '@angular/router';
+import { User, UserRole } from '../user.model';
+import { RuntimeStateService } from './runtime-state.service';
 
 @Injectable({ providedIn: 'root' })
-
 export class AuthService {
-    private userService = inject(UserService);
-    private router = inject(Router);
+    private apiUrl = 'http://localhost:3000/auth';
+    private _currentUser$ = new BehaviorSubject<User | null>(null);
+    currentUser$ = this._currentUser$.asObservable();
 
-    private readonly STORAGE_KEY = 'auth_user';
+    constructor(private http: HttpClient, private router: Router, private state: RuntimeStateService) { }
 
-    private currentUserSubject = new BehaviorSubject<User | null>(null);
-    currentUser$ = this.currentUserSubject.asObservable();
-
-    constructor() {
-
-        this.hydrateFromToken();
-
-    }
-
+    hasStoredToken() { return !!localStorage.getItem('token'); }
+    get token() { return localStorage.getItem('token'); }
+    get isAuthenticated(): boolean { return !!this._currentUser$.value; }
+    get role(): UserRole | null { return this._currentUser$.value?.role ?? null; }
     get currentUser(): User | null {
-        return this.currentUserSubject.value;
-    }
-
-    get isAuthenticated(): boolean {
-        return !!this.currentUserSubject.value?.token;
-    }
-
-    get role(): UserRole | null {
-        return this.currentUserSubject.value?.role ?? null;
-    }
-
-    public hasStoredToken(): boolean {
-        try { return !!localStorage.getItem(this.STORAGE_KEY); } catch { return false; }
-    }
-
-    private hydrateFromToken(): void {
-        const token = this.readToken();
-        if (!token) return;
-
-        this.userService.getUsers().pipe(
-            take(1),
-            map(users => {
-                const found: any = users.find(u => (u as any).token === token);
-                if (!found) return null;
-                const safeUser: User = {
-                    id: found.id,
-                    name: found.name,
-                    email: found.email,
-                    role: found.role,
-                    token: found.token
-                };
-                return safeUser;
-            }),
-            catchError(() => of(null))
-        ).subscribe(user => {
-            this.currentUserSubject.next(user);
-            if (!user) this.clearToken();
-        });
+        return this._currentUser$.value;
     }
 
     login(email: string, password: string) {
-        return this.userService.getUsers().pipe(
-            take(1),
-            map(users => {
-                const found: any = users.find(u => u.email === email && (u as any).password === password);
-                if (!found) throw new Error('Invalid credentials');
-
-                const safeUser: User = {
-                    id: found.id,
-                    name: found.name,
-                    email: found.email,
-                    role: found.role,
-                    token: found.token
-                };
-
-                this.setUser(safeUser);
-                return safeUser;
-            })
-        );
-    }
-
-    logout(): void {
-        this.clearUser();
-        this.router.navigate(['/login']);
+        return this.http.post<{ token: string; user: User }>(`${this.apiUrl}/login`, { email, password })
+            .pipe(
+                tap(res => {
+                    localStorage.setItem('token', res.token);
+                    localStorage.setItem('last_user', JSON.stringify(res.user));
+                    this._currentUser$.next(res.user);
+                    this.state.setOffline(false); 
+                }),
+                map(res => res.user)
+            );
     }
 
     navigateAfterLogin(role: UserRole) {
-        let target: string;
-        switch (role) {
-            case 'admin':
-                target = '/admin-dashboard';
-                break;
-            case 'technician':
-                target = '/technician-dashboard';
-                break;
-            case 'client':
-                target = '/client-dashboard';
-                break;
-            default:
-                target = '/login';
-        }
-
-        this.router.navigate([target]);
+        const mapRole: Record<UserRole, string> = {
+            admin: '/admin-dashboard',
+            technician: '/technician-dashboard',
+            client: '/client-dashboard',
+        };
+        this.router.navigate([mapRole[role] ?? '/']);
     }
 
-    private readToken(): string | null {
+    enterOfflineIfPossible(): boolean {
+        const raw = localStorage.getItem('last_user');
+        if (!raw) return false;
         try {
-            return localStorage.getItem(this.STORAGE_KEY);
+            const u = JSON.parse(raw) as User;
+            this._currentUser$.next(u);
+            this.state.setOffline(true);
+            return true;
         } catch {
-            return null;
+            return false;
         }
     }
 
-    private writeToken(token: string): void {
-        localStorage.setItem(this.STORAGE_KEY, token);
+    loadSession(): Promise<void> {
+        const token = this.token;
+        if (!token) {
+            this._currentUser$.next(null);
+            return Promise.resolve();
+        }
+
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+        return this.http
+            .get<{ user: User }>(`${this.apiUrl}/session`, { headers })
+            .pipe(
+                tap(res => {
+                    this._currentUser$.next(res.user);
+                    localStorage.setItem('last_user', JSON.stringify(res.user));
+                    this.state.setOffline(false);
+                }),
+                map(() => void 0),
+                catchError(err => {
+                    if (err.status === 0 && this.enterOfflineIfPossible()) {
+                        this.state.setOffline(true);
+                        return of(void 0);
+                    }
+                    return of(void 0);
+                })
+            )
+            .toPromise();
     }
 
-    private clearToken(): void {
-        localStorage.removeItem(this.STORAGE_KEY);
+    logout() {
+        localStorage.removeItem('token');
+        this._currentUser$.next(null);
+        this.router.navigate(['/login']);
     }
-
-    private setUser(user: User): void {
-        this.currentUserSubject.next(user);
-        this.writeToken(user.token);
-    }
-
-    private clearUser(): void {
-        this.currentUserSubject.next(null);
-        this.clearToken();
-    }
-
 }
-
