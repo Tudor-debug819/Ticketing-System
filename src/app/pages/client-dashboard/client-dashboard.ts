@@ -37,7 +37,6 @@ export class ClientDashboard implements OnInit {
 
     const me = this.auth.currentUser!;
     this.userName = me.name;
-    const userTickets$ = this.tickets.getByClient(me.id);
 
     // nume prietenos în header local component
     user$.subscribe(u => {
