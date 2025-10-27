@@ -1,4 +1,4 @@
 export const environment = {
-    production: false,
-    apiUrl: 'http://localhost:3000' // URL-ul backend-ului NestJS
+    production: true,
+    apiUrl: 'https://ticketing-system-backend-czjl.onrender.com' // URL-ul backend-ului NestJS
 };
