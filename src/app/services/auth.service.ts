@@ -4,10 +4,11 @@ import { BehaviorSubject, catchError, of, tap, map } from 'rxjs';
 import { Router } from '@angular/router';
 import { User, UserRole } from '../user.model';
 import { RuntimeStateService } from './runtime-state.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    private apiUrl = 'http://localhost:3000/auth';
+    private apiUrl = `${environment.apiUrl}/auth`;
     private _currentUser$ = new BehaviorSubject<User | null>(null);
     currentUser$ = this._currentUser$.asObservable();
 
@@ -28,7 +29,7 @@ export class AuthService {
                     localStorage.setItem('token', res.token);
                     localStorage.setItem('last_user', JSON.stringify(res.user));
                     this._currentUser$.next(res.user);
-                    this.state.setOffline(false); 
+                    this.state.setOffline(false);
                 }),
                 map(res => res.user)
             );
