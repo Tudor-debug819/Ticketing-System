@@ -8,6 +8,8 @@ import { Observable } from 'rxjs';
 import { filter, map, switchMap, shareReplay } from 'rxjs/operators';
 import { Ticket } from '../../ticket.model';
 import { User } from '../../user.model';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 interface TicketStats {
   total: number;
@@ -32,24 +34,24 @@ export class ClientDashboard implements OnInit {
 
   ngOnInit(): void {
     const user$ = this.auth.currentUser$.pipe(
-      filter((u): u is User => !!u)
+      filter((u): u is User => !!u),
+      map(u => ({ id: Number(u.id), name: u.name, email: u.email })),
     );
 
-    const me = this.auth.currentUser!;
-    this.userName = me.name;
-
-    // nume prietenos în header local component
     user$.subscribe(u => {
       const raw = (u.name?.trim()) || (u.email?.split('@')[0] ?? '');
       this.userName = raw ? raw[0].toUpperCase() + raw.slice(1) : '';
     });
 
     const userTickets$ = user$.pipe(
-      switchMap(u => this.tickets.getByClient(Number(u.id))),
-      shareReplay(1)
+      switchMap(u =>
+        this.tickets.getByClient(u.id).pipe(
+          catchError(() => of([] as Ticket[]))
+        )
+      ),
+      shareReplay({ bufferSize: 1, refCount: true })
     );
 
-    //aici se aboneaza o data
     this.stats$ = userTickets$.pipe(
       map(list => ({
         total: list.length,
@@ -60,20 +62,16 @@ export class ClientDashboard implements OnInit {
       }))
     );
 
-    //aici se aboneaza a doua oara
     this.recentTickets$ = userTickets$.pipe(
       map(list =>
         [...list]
-
           .sort((a, b) =>
             new Date(b.updated_at ?? b.created_at).getTime() -
             new Date(a.updated_at ?? a.created_at).getTime()
           )
-
-          .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
           .slice(0, 3)
       )
     );
-    
   }
+
 }
