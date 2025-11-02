@@ -7,7 +7,7 @@ export interface Ticket {
     title: string;
     description: string;
     status: TicketStatus;
-    priority: TicketPriority;
+    priority: TicketPriority; 
     created_at: string;
     updated_at: string;
     assigneed_to?: number; // User ID of the technician

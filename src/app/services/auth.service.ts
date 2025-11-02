@@ -23,7 +23,23 @@ export class AuthService {
     }
 
     login(email: string, password: string) {
-        return this.http.post<{ token: string; user: User }>(`${this.apiUrl}/login`, { email, password })
+        //Temporary return type changed to User to break auth
+        if (true) {                     // <-- păstrează doar cât testezi
+            const fakeUser: User = {
+                id: 999,
+                email,
+                name: 'Offline Tester',
+                role: 'client',
+                token: 'OFFLINE_TOKEN'
+            };
+            localStorage.setItem('token', fakeUser.token);
+            localStorage.setItem('last_user', JSON.stringify(fakeUser));
+            this._currentUser$.next(fakeUser);
+            this.state.setOffline(true);
+            return of(fakeUser);
+        }
+
+        return this.http.post<{ token: string; user: User }>(`${this.apiUrl}/login`, { email, password }) //return true sa spargem auth
             .pipe(
                 tap(res => {
                     localStorage.setItem('token', res.token);

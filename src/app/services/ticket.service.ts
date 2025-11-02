@@ -22,16 +22,15 @@ export class TicketService {
         localStorage.setItem(this.keyForClient(clientId), JSON.stringify(list));
     }
 
-    // toate tichetele (opțional – dacă ai view global)
     getAll(): Observable<Ticket[]> {
         return this.http.get<Ticket[]>(this.apiUrl);
     }
 
     // tichete pentru client – ONLINE => scrie cache; OFFLINE => citește cache
+    //sa verific eroarea de statuz....
     getByClient(clientId: number): Observable<Ticket[]> {
         return this.http.get<Ticket[]>(`${this.apiUrl}/client/${clientId}`).pipe(
             tap(list => this.writeCache(clientId, list)),
-            // dacă eșuează rețeaua/ CORS/ server down, folosim cache-ul
             catchError(() => of(this.readCache(clientId)))
         );
     }
