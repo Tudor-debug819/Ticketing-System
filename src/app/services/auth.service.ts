@@ -24,9 +24,9 @@ export class AuthService {
 
     login(email: string, password: string) {
         //Temporary return type changed to User to break auth
-        if (true) {                     // <-- păstrează doar cât testezi
+        if (true) {                    
             const fakeUser: User = {
-                id: 999,
+                id: 2,
                 email,
                 name: 'Offline Tester',
                 role: 'client',
